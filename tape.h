@@ -4,10 +4,10 @@
 #include <QWidget>
 #include <QApplication>
 #include <QLineEdit>
-#include <QFrame>
 #include <QLabel>
 #include <QHBoxLayout>
-#include <QKeyEvent>
+#include <QResizeEvent>
+#include <QPropertyAnimation>
 #include <QDebug>
 #include "cell.h"
 
@@ -25,9 +25,14 @@ private:
     QWidget * tapeContainer;
     QHBoxLayout * tapeContainerLayout;
 
-    int getNewTapePosition(int cellIndex);
+    QPropertyAnimation * animation;
+
+    int getNewPosition(int cellIndex);
+    void changePosition(int cellIndex, bool animation = true);
+    void setCellValue(int cellIndex, int value);
 
     void setupTapeContainer();
+    void setupAnimation();
 
 
 public:

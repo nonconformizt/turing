@@ -1,6 +1,4 @@
 #include "controlssection.h"
-#include <QLabel>
-
 
 
 ControlsSection::ControlsSection(QWidget *parent) : QWidget(parent)
@@ -16,8 +14,11 @@ ControlsSection::ControlsSection(QWidget *parent) : QWidget(parent)
     QLabel * tmp1 = new QLabel("<INPUT>", this);
     centralLayout->addWidget(tmp1);
 
-    QLabel * tmp2 = new QLabel("<CONTROLS>", this);
-    centralLayout->addWidget(tmp2);
+//    QLabel * tmp2 = new QLabel("<CONTROLS>", this);
+//    centralLayout->addWidget(tmp2);
+
+    buttonPanel = new ButtonPanel(this);
+    centralLayout->addWidget(buttonPanel);
 
     QLabel * tmp3 = new QLabel("<SPEED>", this);
     centralLayout->addWidget(tmp3);

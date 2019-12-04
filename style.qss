@@ -1,4 +1,9 @@
 
+MainWindow {
+    background-color: #fff;
+}
+
+
 Cell {
     background-color: #428bca;
 }
@@ -7,5 +12,39 @@ Cell QLabel {
     color: #fff;
     font-size: 20px;
 }
+
+
+ButtonPanel QPushButton {
+    background-color: #e0e1e2;
+    border: none;
+    min-height: 52px;
+    min-width: 60px;
+    margin-top: 30px;
+}
+
+ButtonPanel QPushButton#play {
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+}
+
+ButtonPanel QPushButton#skip {
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
+
+ButtonPanel QPushButton:hover {
+   background-color: #d9d9d9;
+}
+
+ButtonPanel QPushButton:pressed {
+    background-color: #bfbfbf;
+}
+
+
+
+
+
+
+
 
 

@@ -5,8 +5,7 @@
 #include <QFrame>
 #include <QVBoxLayout>
 #include <QLabel>
-#include <QStyleOption>
-#include <QPainter>
+
 
 
 class Cell : public QFrame
@@ -24,6 +23,8 @@ private:
 public:
     explicit Cell(int index, QWidget *parent = nullptr);
     QSize sizeHint() const override;
+
+    void set(int val) { label->setText(QString::number(val)); }
 
 
 signals:
