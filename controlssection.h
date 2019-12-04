@@ -5,9 +5,10 @@
 #include <QHBoxLayout>
 #include <QLabel>
 #include "buttonpanel.h"
+#include "inputpanel.h"
 
 
-class ControlsSection : public QWidget
+class ControlsSection : public QFrame
 {
 Q_OBJECT
 
@@ -15,6 +16,7 @@ Q_OBJECT
 private:
     QHBoxLayout * centralLayout;
     ButtonPanel * buttonPanel;
+    InputPanel * inputPanel;
 
 
 public:

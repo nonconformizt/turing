@@ -1,21 +1,18 @@
 #include "controlssection.h"
 
 
-ControlsSection::ControlsSection(QWidget *parent) : QWidget(parent)
+ControlsSection::ControlsSection(QWidget *parent) : QFrame(parent)
 {
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 
     centralLayout = new QHBoxLayout(this);
     centralLayout->setAlignment(Qt::AlignCenter);
-    centralLayout->setSpacing(100);
-    centralLayout->setContentsMargins(50, 0, 50, 0);
+    centralLayout->setSpacing(25);
+    centralLayout->setContentsMargins(0, 0, 0, 0);
 
 
-    QLabel * tmp1 = new QLabel("<INPUT>", this);
-    centralLayout->addWidget(tmp1);
-
-//    QLabel * tmp2 = new QLabel("<CONTROLS>", this);
-//    centralLayout->addWidget(tmp2);
+    inputPanel = new InputPanel(this);
+    centralLayout->addWidget(inputPanel);
 
     buttonPanel = new ButtonPanel(this);
     centralLayout->addWidget(buttonPanel);
@@ -29,6 +26,6 @@ ControlsSection::ControlsSection(QWidget *parent) : QWidget(parent)
 
 QSize ControlsSection::sizeHint() const
 {
-    return QSize(0, 50);
+    return QSize(0, 52);
 }
 

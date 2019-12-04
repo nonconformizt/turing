@@ -17,6 +17,7 @@ ButtonPanel::ButtonPanel(QWidget *parent) : QFrame(parent)
 
     setLayout(layout);
 
+    setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
 }
 
 
@@ -25,6 +26,7 @@ QPushButton * ButtonPanel::makeButton(QString name)
     auto btn = new QPushButton(QIcon(":/img/res/" + name + ".png"), "", this);
 
     btn->setObjectName(name);
+    btn->setCursor(Qt::CursorShape::PointingHandCursor);
     btn->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     btn->setIconSize(QSize(35, 35));
     layout->addWidget(btn);
@@ -35,7 +37,7 @@ QPushButton * ButtonPanel::makeButton(QString name)
 
 QSize ButtonPanel::sizeHint() const
 {
-    return QSize(56 * 4, 56);
+    return QSize(56 * 4, 52);
 }
 
 

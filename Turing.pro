@@ -20,6 +20,7 @@ SOURCES += \
     buttonpanel.cpp \
     cell.cpp \
     controlssection.cpp \
+    inputpanel.cpp \
     main.cpp \
     mainwindow.cpp \
     tape.cpp \
@@ -29,6 +30,7 @@ HEADERS += \
     buttonpanel.h \
     cell.h \
     controlssection.h \
+    inputpanel.h \
     mainwindow.h \
     tape.h \
     tapesection.h
