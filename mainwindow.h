@@ -7,6 +7,7 @@
 #include <QPushButton>
 #include "controlssection.h"
 #include "tapesection.h"
+#include "codesection.h"
 
 class MainWindow : public QMainWindow
 {
@@ -17,15 +18,24 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow() override;
 
+    void resizeEvent(QResizeEvent * event) override;
+
+
 private:
     QWidget * centralWidget;
     QVBoxLayout * globalLayout;
 
     ControlsSection * controlsSection;
     TapeSection * tapeSection;
+    CodeSection * codeSection;
 
 
     void setupLayout();
+
+
+signals:
+    void windowResized(QResizeEvent * event);
+
 
 
 };

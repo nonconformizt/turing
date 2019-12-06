@@ -12,11 +12,23 @@ MainWindow::MainWindow(QWidget *parent)
     tapeSection = new TapeSection(centralWidget);
     globalLayout->addWidget(tapeSection);
 
+    codeSection = new CodeSection(centralWidget);
+    // no layout
+
+    connect(this, &MainWindow::windowResized, this->codeSection, &CodeSection::resize);
 }
+
 
 
 MainWindow::~MainWindow()
 {
+}
+
+
+void MainWindow::resizeEvent(QResizeEvent * event)
+{
+    emit windowResized(event);
+    QMainWindow::resizeEvent(event);
 }
 
 
@@ -29,8 +41,10 @@ void MainWindow::setupLayout()
     globalLayout = new QVBoxLayout(centralWidget);
     globalLayout->setMargin(0);
     globalLayout->setSpacing(0);
+    globalLayout->setContentsMargins(0, 0, 0, 80);
     centralWidget->setLayout(globalLayout);
 
-    resize(800, 400);
+    resize(900, 600);
 }
+
 

@@ -19,19 +19,23 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     buttonpanel.cpp \
     cell.cpp \
+    codesection.cpp \
     controlssection.cpp \
     inputpanel.cpp \
     main.cpp \
     mainwindow.cpp \
+    speedslider.cpp \
     tape.cpp \
     tapesection.cpp
 
 HEADERS += \
     buttonpanel.h \
     cell.h \
+    codesection.h \
     controlssection.h \
     inputpanel.h \
     mainwindow.h \
+    speedslider.h \
     tape.h \
     tapesection.h
 

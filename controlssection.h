@@ -6,6 +6,7 @@
 #include <QLabel>
 #include "buttonpanel.h"
 #include "inputpanel.h"
+#include "speedslider.h"
 
 
 class ControlsSection : public QFrame
@@ -17,6 +18,7 @@ private:
     QHBoxLayout * centralLayout;
     ButtonPanel * buttonPanel;
     InputPanel * inputPanel;
+    SpeedSlider * speedSlider;
 
 
 public:

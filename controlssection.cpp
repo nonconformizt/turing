@@ -17,8 +17,8 @@ ControlsSection::ControlsSection(QWidget *parent) : QFrame(parent)
     buttonPanel = new ButtonPanel(this);
     centralLayout->addWidget(buttonPanel);
 
-    QLabel * tmp3 = new QLabel("<SPEED>", this);
-    centralLayout->addWidget(tmp3);
+    speedSlider = new SpeedSlider(this);
+    centralLayout->addWidget(speedSlider);
 
 
 }
