@@ -5,53 +5,39 @@
 
 CodeSection::CodeSection(QWidget *parent) : QFrame(parent)
 {
-    maximizedY = window()->height() - 550;
-    minimizedY = window()->height() - 120;
+    maximizedY = window()->height() - fullHeight;
+    minimizedY = window()->height() - visibleHeight;
 
-    currentGeometry = QRect(
-                    (window()->width() - 600) / 2, // x
-                    minimizedY, // y
-                    600, // width
-                    600 - 50 // height
-                );
-    setGeometry(currentGeometry);
+    coords = QPoint((window()->width() - width) / 2, minimizedY);
+    size = QSize(width, fullHeight);
 
+    setGeometry(QRect(coords, size));
 
-    // temp
-    setStyleSheet("background-color: #000; border-top-left-radius: 10px; border-top-right-radius: 10px;");
-
+    animation = new QPropertyAnimation(this, "geometry");
+    animation->setDuration(350);
+    animation->setEasingCurve(QEasingCurve::InQuad);
 
 }
 
 
 void CodeSection::resize(QResizeEvent * ev)
 {
-    currentGeometry.setX((ev->size().width() - 600) / 2);
-    currentGeometry.setWidth(600);
-    minimizedY = ev->size().height() - 120;
+    coords.setX((ev->size().width() - width) / 2);
 
-    if (!isExpanded)
-        currentGeometry.setY(minimizedY);
+    minimizedY = ev->size().height() - visibleHeight;
+    maximizedY = ev->size().height() - fullHeight;
 
-    setGeometry(currentGeometry);
+    coords.setY((isExpanded) ? maximizedY : minimizedY);
+
+    setGeometry(QRect(coords, size));
 }
 
 
 void CodeSection::mousePressEvent(QMouseEvent *event)
 {
     // start dragging
-    movingOffset = event->y();
-}
-
-
-void CodeSection::mouseReleaseEvent(QMouseEvent *event)
-{
-    // mouse was not moved
-    if (!wasMoved)
-        toggle();
-
-    wasMoved = false;
-
+    if(event->buttons() & Qt::LeftButton)
+        movingOffset = event->y();
 }
 
 
@@ -60,29 +46,75 @@ void CodeSection::mouseMoveEvent(QMouseEvent *event)
     if(event->buttons() & Qt::LeftButton)
     {
         wasMoved = true;
-        this->move(mapToParent(QPoint(0, event->y() - movingOffset)));
+        QPoint nextPos = mapToParent(QPoint(0, event->y() - movingOffset));
+
+        if (nextPos.y() <= minimizedY && nextPos.y() >= maximizedY)
+        {
+            coords = nextPos;
+
+            setGeometry(QRect(coords, size));
+        }
+    }
+}
+
+
+void CodeSection::mouseReleaseEvent(QMouseEvent *event)
+{
+    if(event->button() & Qt::LeftButton)
+    {
+        // end dragging
+        if (!wasMoved)
+            toggle();
+        else if (coords.y() < (minimizedY + maximizedY) / 2)
+            maximize();
+        else
+            minimize();
+
+        wasMoved = false;
     }
 }
 
 
 void CodeSection::toggle()
 {
-    //! TODO: animation
-
-    isExpanded = !isExpanded;
-
     if (isExpanded)
-        currentGeometry.setY(maximizedY);
+        minimize();
     else
-        currentGeometry.setY(minimizedY);
+        maximize();
+}
 
-    setGeometry(currentGeometry);
+
+void CodeSection::minimize()
+{
+    isExpanded = false;
+    coords.setY(minimizedY);
+//    setGeometry(QRect(coords, size));
+    animateTo(minimizedY);
+}
+
+
+void CodeSection::maximize()
+{
+    isExpanded = true;
+    coords.setY(maximizedY);
+//    setGeometry(QRect(coords, size));
+    animateTo(maximizedY);
+}
+
+
+void CodeSection::animateTo(int y)
+{
+//    QRect end = currentGeometry;
+//    end.set
+    animation->setStartValue(geometry());
+    animation->setEndValue(QRect(coords, size));
+    animation->start();
 }
 
 
 QSize CodeSection::sizeHint() const
 {
-    return currentGeometry.size();
+    return size;
 }
 
 
