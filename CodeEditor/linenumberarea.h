@@ -1,0 +1,6 @@
+#ifndef LINENUMBERAREA_H
+#define LINENUMBERAREA_H
+
+
+
+#endif // LINENUMBERAREA_H

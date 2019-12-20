@@ -8,6 +8,7 @@
 #include <QResizeEvent>
 #include <QPropertyAnimation>
 #include <QDebug>
+#include "CodeEditor/codeeditor.h"
 
 
 class CodeSection : public QFrame
@@ -18,7 +19,6 @@ const int fullHeight = 550;
 const int visibleHeight = 120;
 const int width = 600;
 
-//QRect currentGeometry;
 QPoint coords;
 QSize size;
 
@@ -31,6 +31,10 @@ bool wasMoved = false;
 bool isExpanded = false;
 
 QPropertyAnimation * animation;
+
+QVBoxLayout * layout;
+CodeEditor * editor;
+
 
 void mousePressEvent(QMouseEvent * event) override;
 void mouseReleaseEvent(QMouseEvent * event) override;

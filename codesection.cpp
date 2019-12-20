@@ -17,6 +17,17 @@ CodeSection::CodeSection(QWidget *parent) : QFrame(parent)
     animation->setDuration(350);
     animation->setEasingCurve(QEasingCurve::InQuad);
 
+
+
+    layout = new QVBoxLayout(this);
+    //layout->setMargin(0);
+    layout->setSpacing(0);
+    layout->setAlignment(Qt::AlignCenter);
+
+    editor = new CodeEditor(this);
+    layout->addWidget(editor);
+
+
 }
 
 
@@ -51,7 +62,6 @@ void CodeSection::mouseMoveEvent(QMouseEvent *event)
         if (nextPos.y() <= minimizedY && nextPos.y() >= maximizedY)
         {
             coords = nextPos;
-
             setGeometry(QRect(coords, size));
         }
     }
@@ -87,8 +97,6 @@ void CodeSection::toggle()
 void CodeSection::minimize()
 {
     isExpanded = false;
-    coords.setY(minimizedY);
-//    setGeometry(QRect(coords, size));
     animateTo(minimizedY);
 }
 
@@ -96,16 +104,13 @@ void CodeSection::minimize()
 void CodeSection::maximize()
 {
     isExpanded = true;
-    coords.setY(maximizedY);
-//    setGeometry(QRect(coords, size));
     animateTo(maximizedY);
 }
 
 
 void CodeSection::animateTo(int y)
 {
-//    QRect end = currentGeometry;
-//    end.set
+    coords.setY(y);
     animation->setStartValue(geometry());
     animation->setEndValue(QRect(coords, size));
     animation->start();

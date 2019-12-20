@@ -19,6 +19,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     buttonpanel.cpp \
     cell.cpp \
+    CodeEditor/codeeditor.cpp \
+    CodeEditor/linenumberarea.cpp \
     codesection.cpp \
     controlssection.cpp \
     inputpanel.cpp \
@@ -31,6 +33,8 @@ SOURCES += \
 HEADERS += \
     buttonpanel.h \
     cell.h \
+    CodeEditor/codeeditor.h \
+    CodeEditor/linenumberarea.h \
     codesection.h \
     controlssection.h \
     inputpanel.h \

@@ -8,6 +8,12 @@
 #include "controlssection.h"
 #include "tapesection.h"
 #include "codesection.h"
+#include "CodeEditor/codeeditor.h"
+#include "CodeEditor/linenumberarea.h"
+
+class CodeEditor;
+class LineNumberArea;
+
 
 class MainWindow : public QMainWindow
 {
