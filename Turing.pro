@@ -17,10 +17,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    Core/machine.cpp \
     buttonpanel.cpp \
     cell.cpp \
     CodeEditor/codeeditor.cpp \
-    CodeEditor/linenumberarea.cpp \
     codesection.cpp \
     controlssection.cpp \
     inputpanel.cpp \
@@ -31,10 +31,10 @@ SOURCES += \
     tapesection.cpp
 
 HEADERS += \
+    Core/machine.h \
     buttonpanel.h \
     cell.h \
     CodeEditor/codeeditor.h \
-    CodeEditor/linenumberarea.h \
     codesection.h \
     controlssection.h \
     inputpanel.h \

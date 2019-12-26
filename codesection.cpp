@@ -8,8 +8,8 @@ CodeSection::CodeSection(QWidget *parent) : QFrame(parent)
     maximizedY = window()->height() - fullHeight;
     minimizedY = window()->height() - visibleHeight;
 
-    coords = QPoint((window()->width() - width) / 2, minimizedY);
-    size = QSize(width, fullHeight);
+    coords = QPoint((window()->width() - fullWidth) / 2, minimizedY);
+    size = QSize(fullWidth, fullHeight);
 
     setGeometry(QRect(coords, size));
 
@@ -17,23 +17,42 @@ CodeSection::CodeSection(QWidget *parent) : QFrame(parent)
     animation->setDuration(350);
     animation->setEasingCurve(QEasingCurve::InQuad);
 
-
+    dropShadow = new QGraphicsDropShadowEffect(this);
+    dropShadow->setColor(QColor(0, 0, 0, int(255*0.37)));
+    dropShadow->setOffset(0);
+    dropShadow->setBlurRadius(50);
+    setGraphicsEffect(dropShadow);
 
     layout = new QVBoxLayout(this);
-    //layout->setMargin(0);
+    layout->setMargin(0);
     layout->setSpacing(0);
     layout->setAlignment(Qt::AlignCenter);
+
+    handle = new QPushButton(this);
+    handle->setObjectName("handle");
+    handle->setCursor(Qt::CursorShape::PointingHandCursor);
+    handle->setAttribute(Qt::WA_TransparentForMouseEvents);
+    layout->addWidget(handle);
+    layout->setAlignment(handle, Qt::AlignHCenter);
 
     editor = new CodeEditor(this);
     layout->addWidget(editor);
 
+
+    compileBtn = new QPushButton("КОМПИЛИРОВАТЬ", this);
+    compileBtn->setCursor(Qt::CursorShape::PointingHandCursor);
+    compileBtn->setObjectName("compile-btn");
+    // TODO: Remove fixed width
+    compileBtn->setGeometry(width() - 210, height() - 70, 190, 50);
+
+    connect(compileBtn, SIGNAL(clicked()), this, SLOT(compileBtnPressed()));
 
 }
 
 
 void CodeSection::resize(QResizeEvent * ev)
 {
-    coords.setX((ev->size().width() - width) / 2);
+    coords.setX((ev->size().width() - fullWidth) / 2);
 
     minimizedY = ev->size().height() - visibleHeight;
     maximizedY = ev->size().height() - fullHeight;
@@ -121,5 +140,12 @@ QSize CodeSection::sizeHint() const
 {
     return size;
 }
+
+
+void CodeSection::compileBtnPressed()
+{
+    emit compileRequested(editor->toPlainText());
+}
+
 
 

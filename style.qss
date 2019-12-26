@@ -138,13 +138,31 @@ QSlider::handle:disabled {
 
 
 CodeSection {
-    background-color: #000;
+    background-color: #fff;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
 }
 
+#handle {
+    width: 35px;
+    height: 10px;
+    border-radius: 5px;
+    background-color: #d3d3d3;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
 
+#compile-btn {
+    background: #428bca;
+    color: #fff;
+    font-size: 17px;
+    border-radius: 10px;
+}
 
+#compile-btn:hover {
+    background: #4890cf;
+}
 
-
-
+#compile-btn:pressed {
+    background: #529ad9;
+}

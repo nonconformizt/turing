@@ -3,11 +3,12 @@
 
 #include <QFrame>
 #include <QLabel>
-#include <QLineEdit>
 #include <QVBoxLayout>
 #include <QResizeEvent>
 #include <QPropertyAnimation>
+#include <QGraphicsDropShadowEffect>
 #include <QDebug>
+#include <QPushButton>
 #include "CodeEditor/codeeditor.h"
 
 
@@ -15,35 +16,38 @@ class CodeSection : public QFrame
 {
 Q_OBJECT
 
-const int fullHeight = 550;
-const int visibleHeight = 120;
-const int width = 600;
+private:
+    const int fullHeight = 550;
+    const int visibleHeight = 120;
+    const int fullWidth = 600;
 
-QPoint coords;
-QSize size;
+    QPoint coords;
+    QSize size;
 
-int maximizedY;
-int minimizedY;
+    int maximizedY;
+    int minimizedY;
 
-int movingOffset;
-bool wasMoved = false;
+    int movingOffset;
+    bool wasMoved = false;
 
-bool isExpanded = false;
+    bool isExpanded = false;
 
-QPropertyAnimation * animation;
+    QPropertyAnimation * animation;
+    QGraphicsDropShadowEffect * dropShadow;
 
-QVBoxLayout * layout;
-CodeEditor * editor;
+    QVBoxLayout * layout;
+    QPushButton * handle;
+    QPushButton * compileBtn;
+    CodeEditor * editor;
 
+    void mousePressEvent(QMouseEvent * event) override;
+    void mouseReleaseEvent(QMouseEvent * event) override;
+    void mouseMoveEvent(QMouseEvent * event) override;
 
-void mousePressEvent(QMouseEvent * event) override;
-void mouseReleaseEvent(QMouseEvent * event) override;
-void mouseMoveEvent(QMouseEvent * event) override;
-
-void toggle();
-void animateTo(int y);
-void minimize();
-void maximize();
+    void toggle();
+    void animateTo(int y);
+    void minimize();
+    void maximize();
 
 public:
     explicit CodeSection(QWidget *parent = nullptr);
@@ -51,10 +55,12 @@ public:
 
 
 signals:
+    void compileRequested(QString text);
 
 
 public slots:
     void resize (QResizeEvent * ev);
+    void compileBtnPressed();
 
 
 };
