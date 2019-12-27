@@ -49,6 +49,7 @@ private:
     void minimize();
     void maximize();
 
+
 public:
     explicit CodeSection(QWidget *parent = nullptr);
     QSize sizeHint() const override;

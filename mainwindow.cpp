@@ -16,6 +16,9 @@ MainWindow::MainWindow(QWidget *parent)
     // no layout
 
     connect(this, &MainWindow::windowResized, this->codeSection, &CodeSection::resize);
+
+    machine = new Machine();
+    connect(codeSection, &CodeSection::compileRequested, machine, &Machine::compile);
 }
 
 

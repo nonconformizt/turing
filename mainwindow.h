@@ -9,6 +9,7 @@
 #include "tapesection.h"
 #include "codesection.h"
 #include "CodeEditor/codeeditor.h"
+#include "Core/machine.h"
 
 
 class MainWindow : public QMainWindow
@@ -24,6 +25,8 @@ public:
 
 
 private:
+    Machine * machine;
+
     QWidget * centralWidget;
     QVBoxLayout * globalLayout;
 

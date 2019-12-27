@@ -12,6 +12,8 @@ CodeEditor::CodeEditor(QWidget *parent) : QPlainTextEdit(parent)
 
     updateLineNumberAreaWidth(0);
     highlightCurrentLine();
+
+    document()->setPlainText("init: state1\naccept: state1, state2, state3\n");
 }
 
 

@@ -3,12 +3,12 @@
 
 #include <QObject>
 #include <QMap>
+#include <QDebug>
 
 struct Transition;
 
 struct State {
     bool isAccepting;
-    // transitions
     QMap<char, Transition> rules;
 };
 
@@ -18,16 +18,24 @@ struct Transition {
     short shift; // -1, 0 or 1
 };
 
+
+
 class Machine : public QObject
 {
 Q_OBJECT
+
+private:
+    QVector<State *> states;
+    State * initial;
+
+    void clear();
+
 
 public:
     Machine();
 
 
 signals:
-
 
 
 public slots:
@@ -38,3 +46,5 @@ public slots:
 
 
 #endif // MACHINE_H
+
+
