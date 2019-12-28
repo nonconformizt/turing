@@ -13,7 +13,7 @@ CodeEditor::CodeEditor(QWidget *parent) : QPlainTextEdit(parent)
     updateLineNumberAreaWidth(0);
     highlightCurrentLine();
 
-    document()->setPlainText("init: state1\naccept: state1, state2, state3\n");
+    document()->setPlainText("init: q0\naccept: qAccept\n\nq0,0\nq0,0,>\n\nq0,1\nq1,1,>\n\nq1,0\nq2,0,>\n\nq1,1\nq0,1,>\n\nq2,0\nq1,0,>\n\nq2,1\nq2,1,>\n\nq0,_\nqAccept,_,-\n");
 }
 
 
