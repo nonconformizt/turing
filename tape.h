@@ -29,7 +29,8 @@ private:
 
     int getNewPosition(int cellIndex);
     void changePosition(int cellIndex, bool animation = true);
-    void setCellValue(int cellIndex, int value);
+    void setCellValue(int cellIndex, QChar value);
+    QChar getCellValue(int cellIndex);
 
     void setupTapeContainer();
     void setupAnimation();
@@ -40,6 +41,12 @@ public:
     QSize sizeHint() const override;
     void resizeEvent(QResizeEvent* event) override;
 
+    void clear();
+    void forward() { changePosition(activeCell + 1); }
+    void back() { changePosition(activeCell - 1); }
+    void shift(short shift) { changePosition(activeCell + shift); }
+    void write(QChar val) { setCellValue(activeCell, val); }
+    QChar read() { return getCellValue(activeCell); }
 
 
 signals:

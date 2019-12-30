@@ -23,15 +23,6 @@ TapeSection::TapeSection(QWidget *parent) : QWidget(parent)
     stepsIndicator->setAlignment(Qt::AlignRight);
     centralLayout->addWidget(stepsIndicator);
 
-
-    {
-//    QPalette pal = palette();
-//    pal.setColor(QPalette::Background, Qt::yellow);
-//    setAutoFillBackground(true);
-//    setPalette(pal);
-    }
-
-
 }
 
 

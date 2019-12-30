@@ -4,7 +4,9 @@
 #include <QObject>
 #include <QMap>
 #include <QDebug>
-#include <QException>
+#include <QMessageBox>
+#include "tape.h"
+#include "controlssection.h"
 
 
 struct State;
@@ -12,10 +14,10 @@ struct State;
 struct Transition
 {
     State * next;
-    char symbol;
+    QChar symbol;
     short shift; // -1, 0 or 1
 
-    Transition(State * next, char symbol, char shift)
+    Transition(State * next, QChar symbol, char shift)
     {
         this->next = next;
         this->symbol = symbol;
@@ -25,6 +27,8 @@ struct Transition
             this->shift = +1;
         else this->shift = 0;
     }
+
+    Transition() {};
 };
 
 
@@ -32,7 +36,7 @@ struct State
 {
     QString name;
     bool isAccepting = false;
-    QMap<char, Transition> rules;
+    QMap<QChar, Transition> rules;
 
 
     State(QString name)
@@ -55,6 +59,14 @@ struct State
                        rule.second.symbol << ", " << rule.second.shift;
         }
     }
+
+    Transition * findTransition(QChar val)
+    {
+        if (rules.contains(val))
+            return &rules[val];
+        else
+            return nullptr;
+    }
 };
 
 
@@ -64,15 +76,26 @@ class Machine : public QObject
 Q_OBJECT
 
 private:
+    bool compiled = false;
     QVector<State *> states;
     State * initial;
+    State * current;
+    int stepsCount = 0;
+
+    int speed = 100;
+
+    Tape * tape;
+    ControlsSection * controls;
 
     void clear();
     State * findOrCreateState(QString name);
-
+    State * findState(QString name);
+    void setAccepting(QStringList names);
+    void setInitial(QString name);
+    void step();
 
 public:
-    Machine();
+    Machine(Tape * tape, ControlsSection * controls);
 
 
 signals:
@@ -80,7 +103,9 @@ signals:
 
 public slots:
     void compile(QString code);
-
+    void run();
+    void pause();
+    void stop();
 
 };
 

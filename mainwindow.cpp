@@ -17,7 +17,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(this, &MainWindow::windowResized, this->codeSection, &CodeSection::resize);
 
-    machine = new Machine();
+    machine = new Machine(tapeSection->tape, controlsSection);
     connect(codeSection, &CodeSection::compileRequested, machine, &Machine::compile);
 }
 

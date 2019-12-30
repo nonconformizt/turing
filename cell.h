@@ -14,7 +14,7 @@ Q_OBJECT
 
 private:
     int index;
-    int data;
+    QChar data;
     QVBoxLayout * layout;
     QLabel * label;
 
@@ -24,7 +24,8 @@ public:
     explicit Cell(int index, QWidget *parent = nullptr);
     QSize sizeHint() const override;
 
-    void set(int val) { label->setText(QString::number(val)); }
+    void set(QChar val) { label->setText(val); }
+    QChar get() { return (data == ' ') ? '_' : data; }
 
 
 signals:

@@ -4,7 +4,6 @@
 
 Tape::Tape(QWidget * parent) : QFrame(parent)
 {
-
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 
     setupTapeContainer();
@@ -56,9 +55,15 @@ void Tape::changePosition(int cellIndex, bool isAnimated)
 }
 
 
-void Tape::setCellValue(int cellIndex, int value)
+void Tape::setCellValue(int cellIndex, QChar value)
 {
     ((*cells)[cellIndex])->set(value);
+}
+
+
+QChar Tape::getCellValue(int cellIndex)
+{
+    return ((*cells)[cellIndex])->get();
 }
 
 
@@ -96,6 +101,14 @@ void Tape::resizeEvent(QResizeEvent* event)
     QFrame::resizeEvent(event);
 }
 
+
+void Tape::clear()
+{
+    for (int i = 0; i < CELLS_N; i++)
+        setCellValue(i, ' ');
+
+    changePosition(CELLS_N / 2, false);
+}
 
 
 

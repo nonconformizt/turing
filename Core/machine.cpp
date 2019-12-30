@@ -2,9 +2,12 @@
 
 
 
-Machine::Machine()
+Machine::Machine(Tape * tape, ControlsSection * controls)
 {
+    this->tape = tape;
+    this->controls = controls;
 
+    tape->clear();
 }
 
 
@@ -75,17 +78,85 @@ void Machine::compile(QString code)
             currState->rules.insert(conditionChar, currTransition);
         }
 
+        setAccepting(acceptNames);
+        setInitial(initialName);
 
         for (const auto & state: states)
-        {
             state->print();
-        }
+
+        compiled = true;
+
+        QMessageBox msgBox;
+        msgBox.setText("Compiled!");
+        msgBox.setInformativeText("Program compiled successfully!");
+        msgBox.setStandardButtons(QMessageBox::Ok);
+        msgBox.exec();
 
     } catch (QString e) {
-        qInfo() << e;
+
+        compiled = false;
+        clear();
+
+        QMessageBox errBox;
+        errBox.setText("Complation error!");
+        errBox.setInformativeText(e);
+        errBox.setStandardButtons(QMessageBox::Ok);
+        errBox.exec();
     }
 
+    run();
+}
 
+
+void Machine::run()
+{
+    current = initial;
+    step();
+}
+
+
+void Machine::pause()
+{
+
+}
+
+
+void Machine::stop()
+{
+
+}
+
+
+void Machine::step()
+{
+    qInfo("Step!");
+
+    if (current->isAccepting) {
+        qInfo() << "Accepted!";
+        stop();
+        return;
+    }
+
+    // check rules for curr state
+
+    QChar currVal = tape->read();
+
+    Transition *tr = current->findTransition(currVal);
+
+    if (tr == nullptr) { // not found
+        qInfo() << "Rejected!";
+        stop();
+        return;
+    }
+
+    tape->write(tr->symbol);
+    tape->shift(tr->shift);
+
+    current = tr->next;
+
+    stepsCount++;
+
+    step();
 }
 
 
@@ -98,6 +169,12 @@ void Machine::clear()
         states.removeFirst();
         delete tmp;
     }
+
+    initial = nullptr;
+    current = nullptr;
+    compiled = false;
+
+    stepsCount = 0;
 }
 
 
@@ -108,9 +185,41 @@ State * Machine::findOrCreateState(QString name)
             return state;
 
     auto state = new State(name);
-    states.push_back(state);
+    states.append(state);
     return state;
 }
+
+
+State * Machine::findState(QString name)
+{
+    for (State * state: states)
+        if (state->name == name)
+            return state;
+
+    return nullptr;
+}
+
+
+void Machine::setAccepting(QStringList names)
+{
+    State * tmp;
+    for (const auto & name : names)
+    {
+        tmp = findState(name);
+        if (tmp == nullptr)
+            throw "Syntax error: incorrect accepting states!";
+        tmp->isAccepting = true;
+    }
+}
+
+
+void Machine::setInitial(QString name)
+{
+    initial = findState(name);
+    if (initial == nullptr)
+        throw "Syntax error: incorrect initial state!";
+}
+
 
 
 

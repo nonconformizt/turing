@@ -13,10 +13,11 @@ Q_OBJECT
 
 private:
     QVBoxLayout * centralLayout;
-    Tape *tape;
 
 
 public:
+    Tape *tape;
+
     explicit TapeSection(QWidget *parent = nullptr);
     QSize sizeHint() const override;
 
