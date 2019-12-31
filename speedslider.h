@@ -18,10 +18,10 @@ public:
 
 
 signals:
-
+    void speedChanged(int value);
 
 public slots:
-
+    void handleSlider(int value);
 
 };
 

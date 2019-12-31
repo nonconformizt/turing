@@ -26,6 +26,7 @@ private:
     QHBoxLayout * tapeContainerLayout;
 
     QPropertyAnimation * animation;
+    int animationDuration = 0;
 
     int getNewPosition(int cellIndex);
     void changePosition(int cellIndex, bool animation = true);
@@ -47,13 +48,8 @@ public:
     void shift(short shift) { changePosition(activeCell + shift); }
     void write(QChar val) { setCellValue(activeCell, val); }
     QChar read() { return getCellValue(activeCell); }
-
-
-signals:
-
-
-public slots:
-
+    void setAnimationDuration(int ms) { animationDuration = ms; }
+    void load(QString inp);
 
 };
 

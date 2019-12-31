@@ -24,8 +24,12 @@ public:
     explicit Cell(int index, QWidget *parent = nullptr);
     QSize sizeHint() const override;
 
-    void set(QChar val) { label->setText(val); }
-    QChar get() { return (data == ' ') ? '_' : data; }
+    void set(QChar val)
+    {
+        data = val;
+        label->setText((data == '_') ? ' ' : data );
+    }
+    QChar get() { return data; }
 
 
 signals:

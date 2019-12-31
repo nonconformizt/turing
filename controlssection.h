@@ -16,21 +16,22 @@ Q_OBJECT
 
 private:
     QHBoxLayout * centralLayout;
-    ButtonPanel * buttonPanel;
     InputPanel * inputPanel;
-    SpeedSlider * speedSlider;
 
 
 public:
+    ButtonPanel * buttonPanel;
+    SpeedSlider * speedSlider;
+
     explicit ControlsSection(QWidget *parent = nullptr);
     QSize sizeHint() const override;
 
 
 signals:
-
+    void inputLoaded(QString inp);
 
 public slots:
-
+    void handleInput();
 
 };
 

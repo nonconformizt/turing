@@ -4,12 +4,14 @@
 #include <QObject>
 #include <QMap>
 #include <QDebug>
+#include <QTimer>
 #include <QMessageBox>
+#include <QPushButton>
 #include "tape.h"
 #include "controlssection.h"
-
-
 struct State;
+
+
 
 struct Transition
 {
@@ -28,7 +30,7 @@ struct Transition
         else this->shift = 0;
     }
 
-    Transition() {};
+    Transition() {}
 };
 
 
@@ -82,30 +84,32 @@ private:
     State * current;
     int stepsCount = 0;
 
-    int speed = 100;
-
     Tape * tape;
     ControlsSection * controls;
+
+    double speed = 10;
+    const double maxStepDuration = 5000;
+    double stepDuration = maxStepDuration / speed;
 
     void clear();
     State * findOrCreateState(QString name);
     State * findState(QString name);
     void setAccepting(QStringList names);
     void setInitial(QString name);
-    void step();
+
 
 public:
     Machine(Tape * tape, ControlsSection * controls);
 
 
-signals:
-
-
 public slots:
     void compile(QString code);
     void run();
+    void step();
     void pause();
     void stop();
+    void input(QString inp);
+    void changeSpeed(int value);
 
 };
 

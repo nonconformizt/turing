@@ -18,11 +18,6 @@ Tape::Tape(QWidget * parent) : QFrame(parent)
 
     changePosition(CELLS_N / 2, false);
 
-
-    //changePosition(activeCell + 3);
-
-    //setCellValue(53, 101);
-
 }
 
 
@@ -83,7 +78,7 @@ void Tape::setupTapeContainer()
 void Tape::setupAnimation()
 {
     animation = new QPropertyAnimation(tapeContainer, "geometry");
-    animation->setDuration(700);
+    animation->setDuration(animationDuration);
     animation->setEasingCurve(QEasingCurve::InCurve);
 }
 
@@ -105,10 +100,16 @@ void Tape::resizeEvent(QResizeEvent* event)
 void Tape::clear()
 {
     for (int i = 0; i < CELLS_N; i++)
-        setCellValue(i, ' ');
+        setCellValue(i, '_');
 
     changePosition(CELLS_N / 2, false);
 }
 
 
+void Tape::load(QString inp)
+{
+    clear();
+    for (int i = 0, len = inp.length(); i < len && (activeCell+i < CELLS_N); i++)
+        ((*cells)[activeCell + i])->set(inp[i]);
+}
 

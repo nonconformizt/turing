@@ -1,8 +1,6 @@
 #include "inputpanel.h"
 
 
-
-
 InputPanel::InputPanel(QWidget *parent) : QFrame(parent)
 {
     layout = new QHBoxLayout(this);
@@ -10,8 +8,6 @@ InputPanel::InputPanel(QWidget *parent) : QFrame(parent)
     layout->setMargin(0);
 
     input = new QLineEdit(this);
-    //! TODO: Make regular expression validator
-    input->setValidator( new QIntValidator(0, 999999999, this) );
     layout->addWidget(input);
 
     loadBtn = new QPushButton("Load", this);

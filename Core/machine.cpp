@@ -7,6 +7,11 @@ Machine::Machine(Tape * tape, ControlsSection * controls)
     this->tape = tape;
     this->controls = controls;
 
+    connect(this->controls->buttonPanel->play, SIGNAL(released()), this, SLOT(run()));
+
+    connect(this->controls->speedSlider, SIGNAL(speedChanged(int)), this, SLOT(changeSpeed(int)));
+    connect(this->controls, SIGNAL(inputLoaded(QString)), this, SLOT(input(QString)));
+
     tape->clear();
 }
 
@@ -103,8 +108,6 @@ void Machine::compile(QString code)
         errBox.setStandardButtons(QMessageBox::Ok);
         errBox.exec();
     }
-
-    run();
 }
 
 
@@ -137,6 +140,9 @@ void Machine::step()
         return;
     }
 
+    qInfo() << "Current step:";
+    current->print();
+
     // check rules for curr state
 
     QChar currVal = tape->read();
@@ -145,6 +151,7 @@ void Machine::step()
 
     if (tr == nullptr) { // not found
         qInfo() << "Rejected!";
+        qInfo() << "currVal: " << currVal;
         stop();
         return;
     }
@@ -156,7 +163,9 @@ void Machine::step()
 
     stepsCount++;
 
-    step();
+    qInfo() << stepDuration;
+
+    QTimer::singleShot((int)stepDuration, this, SLOT(step()));
 }
 
 
@@ -175,6 +184,19 @@ void Machine::clear()
     compiled = false;
 
     stepsCount = 0;
+}
+
+
+void Machine::input(QString inp)
+{
+    tape->load(inp);
+}
+
+
+void Machine::changeSpeed(int value)
+{
+    speed = value;
+    stepDuration = maxStepDuration / speed;
 }
 
 

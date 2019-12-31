@@ -16,15 +16,17 @@ class ButtonPanel : public QFrame
 Q_OBJECT
 
 private:
-    QPushButton * play, * pause, * stop, * skip;
     QHBoxLayout * layout;
 
     QPushButton * makeButton(QString name);
 
 
 public:
+    QPushButton * play, * pause, * stop, * skip;
+
     explicit ButtonPanel(QWidget *parent = nullptr);
     QSize sizeHint() const override;
+
 
 signals:
 

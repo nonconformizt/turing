@@ -12,21 +12,13 @@ class InputPanel : public QFrame
 {
 Q_OBJECT
 
-private:
+public:
     QHBoxLayout * layout;
     QLineEdit * input;
     QPushButton * loadBtn;
 
-
-
-public:
     explicit InputPanel(QWidget *parent = nullptr);
     QSize sizeHint() const override;
-
-signals:
-
-public slots:
-
 
 };
 
