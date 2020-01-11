@@ -24,7 +24,7 @@ public:
     explicit TapeSection(QWidget *parent = nullptr);
     QSize sizeHint() const override;
 
-    void setSteps(int steps) { stepsIndicator->setText("Steps" + QString::number(steps)); }
+    void setSteps(int steps) { stepsIndicator->setText("Steps: " + QString::number(steps)); }
     void setState(QString name) { stateIndicator->setText("State: " + name); }
 
 };

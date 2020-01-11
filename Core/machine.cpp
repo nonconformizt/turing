@@ -9,6 +9,8 @@ Machine::Machine(Tape * tape, TapeSection * tapeSection, ControlsSection * contr
     this->controls = controls;
 
     connect(this->controls->buttonPanel->play, SIGNAL(released()), this, SLOT(run()));
+    connect(this->controls->buttonPanel->pause, SIGNAL(released()), this, SLOT(pause()));
+    connect(this->controls->buttonPanel->stop, SIGNAL(released()), this, SLOT(stop()));
     connect(this->controls->speedSlider, SIGNAL(speedChanged(int)), this, SLOT(changeSpeed(int)));
     connect(this->controls, SIGNAL(inputLoaded(QString)), this, SLOT(input(QString)));
 
