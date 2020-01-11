@@ -4,5 +4,6 @@
         <file>res/play.png</file>
         <file>res/skip.png</file>
         <file>res/stop.png</file>
+        <file>res/triangle.png</file>
     </qresource>
 </RCC>

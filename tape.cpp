@@ -9,6 +9,13 @@ Tape::Tape(QWidget * parent) : QFrame(parent)
     setupTapeContainer();
     setupAnimation();
 
+    carriage = new QLabel("hello", this);
+    QPicture pic;
+    pic.load(":/img/res/triangle.png");
+    carriage->setPicture(pic);
+    carriage->setGeometry(0, 0, 100, 100);
+    carriage->show();
+
     cells = new QVector<Cell *>(CELLS_N);
     for (int i = 0; i < cells->size(); i++)
     {
@@ -78,7 +85,6 @@ void Tape::setupTapeContainer()
 void Tape::setupAnimation()
 {
     animation = new QPropertyAnimation(tapeContainer, "geometry");
-    animation->setDuration(animationDuration);
     animation->setEasingCurve(QEasingCurve::InCurve);
 }
 
@@ -111,5 +117,6 @@ void Tape::load(QString inp)
     clear();
     for (int i = 0, len = inp.length(); i < len && (activeCell+i < CELLS_N); i++)
         ((*cells)[activeCell + i])->set(inp[i]);
+    wasLoaded = true;
 }
 

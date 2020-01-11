@@ -9,6 +9,7 @@
 #include <QResizeEvent>
 #include <QPropertyAnimation>
 #include <QDebug>
+#include <QPicture>
 #include "cell.h"
 
 
@@ -22,11 +23,11 @@ private:
     const int CELLS_N = 100;
     int activeCell = CELLS_N / 2;
     QVector<Cell *> * cells;
+    QLabel * carriage;
     QWidget * tapeContainer;
     QHBoxLayout * tapeContainerLayout;
 
     QPropertyAnimation * animation;
-    int animationDuration = 0;
 
     int getNewPosition(int cellIndex);
     void changePosition(int cellIndex, bool animation = true);
@@ -48,8 +49,9 @@ public:
     void shift(short shift) { changePosition(activeCell + shift); }
     void write(QChar val) { setCellValue(activeCell, val); }
     QChar read() { return getCellValue(activeCell); }
-    void setAnimationDuration(int ms) { animationDuration = ms; }
+    void setAnimationDuration(int ms) { animation->setDuration(ms); }
     void load(QString inp);
+    bool wasLoaded = false;
 
 };
 

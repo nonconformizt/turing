@@ -9,6 +9,7 @@
 #include <QPushButton>
 #include "tape.h"
 #include "controlssection.h"
+#include "tapesection.h"
 struct State;
 
 
@@ -79,15 +80,17 @@ Q_OBJECT
 
 private:
     bool compiled = false;
+    bool paused = false;
     QVector<State *> states;
     State * initial;
     State * current;
     int stepsCount = 0;
 
     Tape * tape;
+    TapeSection * tapeSection;
     ControlsSection * controls;
 
-    double speed = 10;
+    int speed = 10;
     const double maxStepDuration = 5000;
     double stepDuration = maxStepDuration / speed;
 
@@ -99,7 +102,7 @@ private:
 
 
 public:
-    Machine(Tape * tape, ControlsSection * controls);
+    Machine(Tape * tape, TapeSection * tapeSection, ControlsSection * controls);
 
 
 public slots:

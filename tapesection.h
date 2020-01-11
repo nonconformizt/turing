@@ -2,6 +2,7 @@
 #define TAPESECTION_H
 
 #include <QWidget>
+#include <QPushButton>
 #include <QVBoxLayout>
 #include "tape.h"
 
@@ -13,7 +14,9 @@ Q_OBJECT
 
 private:
     QVBoxLayout * centralLayout;
-
+    QLabel * carriage;
+    QLabel * stepsIndicator;
+    QLabel * stateIndicator;
 
 public:
     Tape *tape;
@@ -21,13 +24,8 @@ public:
     explicit TapeSection(QWidget *parent = nullptr);
     QSize sizeHint() const override;
 
-
-signals:
-
-
-public slots:
-
-
+    void setSteps(int steps) { stepsIndicator->setText("Steps" + QString::number(steps)); }
+    void setState(QString name) { stateIndicator->setText("State: " + name); }
 
 };
 

@@ -2,15 +2,17 @@
 
 
 
-Machine::Machine(Tape * tape, ControlsSection * controls)
+Machine::Machine(Tape * tape, TapeSection * tapeSection, ControlsSection * controls)
 {
     this->tape = tape;
+    this->tapeSection = tapeSection;
     this->controls = controls;
 
     connect(this->controls->buttonPanel->play, SIGNAL(released()), this, SLOT(run()));
-
     connect(this->controls->speedSlider, SIGNAL(speedChanged(int)), this, SLOT(changeSpeed(int)));
     connect(this->controls, SIGNAL(inputLoaded(QString)), this, SLOT(input(QString)));
+
+    changeSpeed(speed);
 
     tape->clear();
 }
@@ -22,7 +24,6 @@ void Machine::compile(QString code)
         clear();
 
         QStringList lines = code.split('\n', QString::SkipEmptyParts);
-
         QString initialName;
         if (lines[0].indexOf("init: ") == 0)
             initialName = lines[0].mid(6, lines[0].length());
@@ -91,67 +92,69 @@ void Machine::compile(QString code)
 
         compiled = true;
 
-        QMessageBox msgBox;
-        msgBox.setText("Compiled!");
-        msgBox.setInformativeText("Program compiled successfully!");
-        msgBox.setStandardButtons(QMessageBox::Ok);
-        msgBox.exec();
-
     } catch (QString e) {
 
         compiled = false;
         clear();
-
-        QMessageBox errBox;
-        errBox.setText("Complation error!");
-        errBox.setInformativeText(e);
-        errBox.setStandardButtons(QMessageBox::Ok);
-        errBox.exec();
+        QMessageBox::critical(nullptr, "Complation error!", e);
     }
 }
 
 
 void Machine::run()
 {
-    current = initial;
-    step();
+    if (paused)
+    {
+        // resume
+
+        paused = false;
+        step();
+    }
+    else
+    {
+        if (! compiled)
+            QMessageBox::warning(nullptr, "No program!", "You have not comiled any program or the program was not correct.");
+        else if (! tape->wasLoaded)
+            QMessageBox::warning(nullptr, "No initilal data!", "No data was loaded to the tape. Load some data first.");
+        else {
+            current = initial;
+            stepsCount = 0;
+            step();
+        }
+    }
 }
 
 
 void Machine::pause()
 {
-
+    paused = true;
 }
 
 
 void Machine::stop()
 {
-
+    tape->wasLoaded = false;
 }
 
 
 void Machine::step()
 {
-    qInfo("Step!");
+    if (paused)
+        return;
 
     if (current->isAccepting) {
-        qInfo() << "Accepted!";
+        QMessageBox::information(nullptr, "Accepted!", "Accepted!");
         stop();
         return;
     }
 
-    qInfo() << "Current step:";
-    current->print();
-
     // check rules for curr state
-
     QChar currVal = tape->read();
 
     Transition *tr = current->findTransition(currVal);
 
     if (tr == nullptr) { // not found
-        qInfo() << "Rejected!";
-        qInfo() << "currVal: " << currVal;
+        QMessageBox::information(nullptr, "Rejected!", "Rejected!");
         stop();
         return;
     }
@@ -160,12 +163,12 @@ void Machine::step()
     tape->shift(tr->shift);
 
     current = tr->next;
+    tapeSection->setState(current->name);
 
     stepsCount++;
+    tapeSection->setSteps(stepsCount);
 
-    qInfo() << stepDuration;
-
-    QTimer::singleShot((int)stepDuration, this, SLOT(step()));
+    QTimer::singleShot(int(stepDuration * 2), this, SLOT(step()));
 }
 
 
@@ -184,6 +187,7 @@ void Machine::clear()
     compiled = false;
 
     stepsCount = 0;
+    tapeSection->setSteps(stepsCount);
 }
 
 
@@ -197,6 +201,7 @@ void Machine::changeSpeed(int value)
 {
     speed = value;
     stepDuration = maxStepDuration / speed;
+    tape->setAnimationDuration((int) stepDuration);
 }
 
 
@@ -208,6 +213,7 @@ State * Machine::findOrCreateState(QString name)
 
     auto state = new State(name);
     states.append(state);
+
     return state;
 }
 
