@@ -6,4 +6,7 @@
         <file>res/stop.png</file>
         <file>res/triangle.png</file>
     </qresource>
+    <qresource prefix="/style">
+        <file>style.qss</file>
+    </qresource>
 </RCC>
